@@ -1,4 +1,4 @@
-# Enterprise RAG System
+# Revised Enterprise RAG System
 
 A high-accuracy, enterprise-grade Retrieval-Augmented Generation system for SEC 10-K filings, financial reports, and structured PDF documents.
 
