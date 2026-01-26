@@ -22,6 +22,9 @@ from enum import Enum
 import pdfplumber
 import fitz  # PyMuPDF
 
+from .excel_parser import ExcelParser, parse_excel
+from .ppt_parser import PowerPointParser, parse_ppt
+
 
 class ElementType(Enum):
     """Types of document elements."""
@@ -468,3 +471,31 @@ def parse_pdf(pdf_path: str | Path) -> ParsedDocument:
     """Parse a PDF file and return structured document."""
     parser = PDFParser()
     return parser.parse(pdf_path)
+
+
+def parse_document(file_path: str | Path) -> ParsedDocument:
+    """
+    Parse a document based on its file type.
+
+    Supports PDF and Excel files.
+
+    Args:
+        file_path: Path to the document file
+
+    Returns:
+        ParsedDocument with extracted content
+
+    Raises:
+        ValueError: If file type is not supported
+    """
+    file_path = Path(file_path)
+    suffix = file_path.suffix.lower()
+
+    if suffix == '.pdf':
+        return parse_pdf(file_path)
+    elif suffix in ['.xlsx', '.xls']:
+        return parse_excel(file_path)
+    elif suffix in ['.pptx', '.ppt']:
+        return parse_ppt(file_path)
+    else:
+        raise ValueError(f"Unsupported file type: {suffix}. Supported types: .pdf, .xlsx, .xls, .pptx, .ppt")
